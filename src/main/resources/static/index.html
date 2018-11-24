@@ -3,8 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <title>Freddie</title>
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $.get("/User/", function(data) {
+                console.log(data);
+            });
+        });
+    </script>
 </head>
 <body>
 <h3>Welcome to Freddie - The World's Best Music Recommendation System</h3>
+<select id="userDropdown"></select>
 </body>
 </html>
