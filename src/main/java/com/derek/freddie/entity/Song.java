@@ -84,4 +84,17 @@ public final class Song {
     public void setUrl(String url) {
         this.url = url;
     }
+
+    @Override
+    public String toString() {
+        return "Song{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", artist='" + artist + '\'' +
+                ", genre='" + genre + '\'' +
+                ", length=" + length +
+                ", year=" + year +
+                ", url='" + url + '\'' +
+                '}';
+    }
 }

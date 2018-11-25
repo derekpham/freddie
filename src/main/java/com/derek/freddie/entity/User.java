@@ -43,4 +43,13 @@ public final class User {
     public void setAlgorithm(String algorithm) {
         this.algorithm = algorithm;
     }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", algorithm='" + algorithm + '\'' +
+                '}';
+    }
 }

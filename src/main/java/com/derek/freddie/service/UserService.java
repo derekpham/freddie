@@ -16,4 +16,8 @@ public final class UserService {
     public Iterable<User> findAll() {
         return repository.findAll();
     }
+
+    public User findByName(String userName) {
+        return this.repository.findByName(userName);
+    }
 }
