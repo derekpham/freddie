@@ -10,12 +10,14 @@ public final class User {
     @GeneratedValue
     private Long id;
     private String name;
+    private String algorithm;
 
     public User() {}
 
-    public User(Long id, String name) {
+    public User(Long id, String name, String algorithm) {
         this.id = id;
         this.name = name;
+        this.algorithm = algorithm;
     }
 
     public Long getId() {
@@ -32,5 +34,13 @@ public final class User {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getAlgorithm() {
+        return algorithm;
+    }
+
+    public void setAlgorithm(String algorithm) {
+        this.algorithm = algorithm;
     }
 }

@@ -7,13 +7,15 @@
     <script type="text/javascript">
         $(document).ready(function() {
             $.get("/User/", function(data) {
-                console.log(data);
+                data.forEach(function(user) {
+                    $("#userDropdown").append(new Option(user["name"] + " - " + user["algorithm"]));
+                });
             });
         });
     </script>
 </head>
 <body>
 <h3>Welcome to Freddie - The World's Best Music Recommendation System</h3>
-<select id="userDropdown"></select>
+All users: <select id="userDropdown"></select>
 </body>
 </html>

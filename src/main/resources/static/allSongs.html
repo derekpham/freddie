@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>All Songs in the Database</title>
+    <style>
+        table {
+            font-family: arial, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        td, th {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+
+        tr:nth-child(even) {
+            background-color: #dddddd;
+        }
+    </style>
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript">
+        $.get("/Song/", function(songs) {
+            songs.forEach(function(song) {
+                let row = "";
+                row += "<th>" + song["name"] + "</th>";
+                row += "<th>" + song["artist"] + "</th>";
+                row += "<th>" + song["genre"] + "</th>";
+                row += "<th>" + song["length"] + "</th>";
+                row += "<th>" + song["year"] + "</th>";
+                row += "<th>" + song["url"] + "</th>";
+                row = "<tr>" + row + "</tr>";
+                $("#songs tbody").append(row);
+            });
+        });
+    </script>
+</head>
+<body>
+<table id="songs">
+    <tr>
+        <th>Name</th>
+        <th>Artist</th>
+        <th>Genre</th>
+        <th>Length</th>
+        <th>Year</th>
+        <th>Link</th>
+    </tr>
+</table>
+</body>
+</html>
