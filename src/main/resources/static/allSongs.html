@@ -4,6 +4,11 @@
     <meta charset="UTF-8">
     <title>All Songs in the Database</title>
     <style>
+        a {
+            color: blue;
+        }
+    </style>
+    <style>
         table {
             font-family: arial, sans-serif;
             border-collapse: collapse;
@@ -30,7 +35,7 @@
                 row += "<th>" + song["genre"] + "</th>";
                 row += "<th>" + song["length"] + "</th>";
                 row += "<th>" + song["year"] + "</th>";
-                row += "<th>" + song["url"] + "</th>";
+                row += "<th><a href='" + song["url"] + "'>" + song["url"] + "</a></th>";
                 row = "<tr>" + row + "</tr>";
                 $("#songs tbody").append(row);
             });

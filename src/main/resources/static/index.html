@@ -2,20 +2,36 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <style>
+        a {
+            color: blue;
+        }
+    </style>
     <title>Freddie</title>
     <script src="js/jquery-3.3.1.min.js"></script>
     <script type="text/javascript">
         $(document).ready(function() {
             $.get("/User/", function(data) {
                 data.forEach(function(user) {
-                    $("#userDropdown").append(new Option(user["name"] + " - " + user["algorithm"]));
+                    $("#userDropdown").append(
+                        new Option(user["name"] + " - " + user["algorithm"], user["name"]));
                 });
             });
         });
+
+        function goToUserHomepage() {
+            let user = $("#userDropdown").val;
+            console.log(user);
+        }
     </script>
 </head>
 <body>
-<h3>Welcome to Freddie - The World's Best Music Recommendation Systemfdsfsdfdsfsd</h3>
+<h3>Welcome to Freddie - The World's Best Music Recommendation System</h3>
 All users: <select id="userDropdown"></select>
+<button value="Go to user's homepage" onclick="goToUserHomepage();">
+    Go to the user's home page
+</button><br><br><br>
+<a href="allSongs.html">All Songs in the Database</a><br>
+<a href="addSong.html">Add a New Song</a>
 </body>
 </html>

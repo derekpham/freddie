@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add a Song</title>
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript">
+        function addSong() {
+            $.ajax({
+                url: "/Song/addSong",
+                data: $('#form').serialize(),
+                type: "POST",
+                success: function() {
+                    $('#form').trigger("reset");
+                    $('#success').text('Success!!');
+                    $('#success').css('color', 'green');
+                },
+                error: function() {
+                    $('#success').text('Failed!!');
+                    $('#success').css('color', 'red');
+                }
+            })
+        }
+    </script>
+</head>
+<body>
+<form id="form">
+    Name:<br>
+    <input type="text" name="name"><br>
+    Artist:<br>
+    <input type="text" name="artist"><br>
+    Genre:<br>
+    <input type="text" name="genre"><br>
+    Length (in seconds):<br>
+    <input type="number" name="length"><br>
+    Year recorded:<br>
+    <input type="number" name="year"><br>
+    Youtube link:<br>
+    <input type="text" name="url"><br>
+</form><br>
+<button type="submit" onclick="addSong()">Add new song!</button>
+<p id="success"></p>
+</body>
+</html>
