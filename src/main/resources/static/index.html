@@ -21,8 +21,7 @@
         });
 
         function goToUserHomepage() {
-            let user = $("#userDropdown").val;
-            console.log(user);
+            window.location = "/UserHome.html?userName=" + $('#userDropdown').val();
         }
     </script>
 </head>
@@ -32,8 +31,11 @@ All users: <select id="userDropdown"></select>
 <button value="Go to user's homepage" onclick="goToUserHomepage();">
     Go to the user's home page
 </button><br><br><br>
-<a href="allSongs.html">All Songs in the Database</a><br>
-<a href="addSong.html">Add a New Song</a><br>
-<a href="addUser.html">Add New User</a>
+<div id="links">
+    <a href="/">Index</a>
+    <a href="allSongs.html">All Songs in the Database</a><br>
+    <a href="addSong.html">Add a New Song</a><br>
+    <a href="addUser.html">Add New User</a>
+</div>
 </body>
 </html>

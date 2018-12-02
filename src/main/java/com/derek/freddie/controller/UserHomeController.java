@@ -2,7 +2,6 @@ package com.derek.freddie.controller;
 
 import com.derek.freddie.entity.User;
 import com.derek.freddie.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
  *  +) Handles error for mappings
  *  +) Handles user not found error
  *  +) Moves error to an error package??
+ *  +) Even remove the exception class all in one
  */
 
 @Controller
