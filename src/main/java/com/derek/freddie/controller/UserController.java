@@ -2,9 +2,8 @@ package com.derek.freddie.controller;
 
 import com.derek.freddie.entity.User;
 import com.derek.freddie.service.UserService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/User")
@@ -18,5 +17,12 @@ public final class UserController {
     @GetMapping("/")
     public Iterable<User> findAll() {
         return this.userService.findAll();
+    }
+
+    @RequestMapping(value = "/addUser", method = RequestMethod.POST,
+            consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public User addUser(User user) {
+        return this.userService.save(user);
     }
 }

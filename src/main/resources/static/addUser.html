@@ -3,8 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <title>Add User</title>
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $.get("/Recommend/algorithms", function(data) {
+                data.forEach(function(algo) {
+                    $('#algorithmsDropdown').append(new Option(algo));
+                });
+            });
+        });
+
+        function addUser() {
+            $.ajax({
+                url: "/User/addUser",
+                data: $('#userForm').serialize(),
+                type: "POST",
+                success: function() {
+                    $('#form').trigger("reset");
+                    $('#success').text('Success!!');
+                    $('#success').css('color', 'green');
+                },
+                error: function() {
+                    $('#success').text('Failed!!');
+                    $('#success').css('color', 'red');
+                }
+            });
+        }
+    </script>
 </head>
 <body>
-
+<form id="userForm">
+    Username:
+    <input type="text" name="name"><br>
+    Algorithm:
+    <select id="algorithmsDropdown" name="algorithm"></select>
+</form>
+<button type="submit" onclick="addUser()">Create new user!</button>
+<p id="success"></p>
 </body>
 </html>
