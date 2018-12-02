@@ -1,21 +1,41 @@
 package com.derek.freddie.entity;
 
+import com.derek.freddie.entity.relationship.GavePreferenceRelationship;
+import com.derek.freddie.entity.relationship.ListenedRelationship;
+import com.derek.freddie.entity.relationship.RelationshipType;
+import com.derek.freddie.entity.relationship.WasRecommendedRelationship;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.neo4j.ogm.annotation.GeneratedValue;
 import org.neo4j.ogm.annotation.Id;
 import org.neo4j.ogm.annotation.NodeEntity;
+import org.neo4j.ogm.annotation.Relationship;
+
+import java.util.*;
+
+/**
+ * TODO:
+ *  +) looks into whether you can make this a set
+ */
 
 @NodeEntity
 public final class User {
-    @Id
-    @GeneratedValue
-    private Long id;
+    @Id @GeneratedValue private Long id;
     private String name;
     private String algorithm;
 
-    public User() {}
+    @Relationship(type = RelationshipType.WAS_RECOMMENDED)
+    @JsonIgnore
+    private Set<WasRecommendedRelationship> wasRecommendedRelationships = new HashSet<>();
 
-    public User(Long id, String name, String algorithm) {
-        this.id = id;
+    @Relationship(type = RelationshipType.LISTENED)
+    @JsonIgnore
+    private Set<ListenedRelationship> listenedRelationships = new HashSet<>();
+
+    @Relationship(type = RelationshipType.GAVE_PREFERENCE)
+    @JsonIgnore
+    private Set<GavePreferenceRelationship> gavePreferenceRelationships = new HashSet<>();
+
+    public User(String name, String algorithm) {
         this.name = name;
         this.algorithm = algorithm;
     }
@@ -40,8 +60,16 @@ public final class User {
         return algorithm;
     }
 
-    public void setAlgorithm(String algorithm) {
-        this.algorithm = algorithm;
+    public Set<WasRecommendedRelationship> getWasRecommendedRelationships() {
+        return wasRecommendedRelationships;
+    }
+
+    public Set<ListenedRelationship> getListenedRelationships() {
+        return listenedRelationships;
+    }
+
+    public Set<GavePreferenceRelationship> getGavePreferenceRelationships() {
+        return gavePreferenceRelationships;
     }
 
     @Override
@@ -51,5 +79,18 @@ public final class User {
                 ", name='" + name + '\'' +
                 ", algorithm='" + algorithm + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return Objects.equals(id, user.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }

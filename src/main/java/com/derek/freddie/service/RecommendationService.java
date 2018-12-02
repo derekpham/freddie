@@ -25,12 +25,12 @@ public final class RecommendationService {
         return result;
     }
 
-    public boolean algorithmExists(String algorithm) {
-        return algorithm != null && this.nameToAlgorithm.containsKey(algorithm);
+    public boolean existsAlgorithm(String algorithm) {
+        return algorithm != null && !this.nameToAlgorithm.containsKey(algorithm);
     }
 
     public Song recommend(User user) {
-        if (!this.algorithmExists(user.getAlgorithm())) {
+        if (this.existsAlgorithm(user.getAlgorithm())) {
             throw new RuntimeException("Algorithm doesn't exist");
         }
 

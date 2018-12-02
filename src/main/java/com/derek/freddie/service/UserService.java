@@ -29,14 +29,18 @@ public final class UserService {
     }
 
     public User save(User user) {
-        if (this.existsByName(user.getName())) {
-            throw new RuntimeException("Username already exists");
+        if (this.userInDatabase(user)) {
+            throw new RuntimeException("User already exists: " + user);
         }
-        if (!this.recommendationService.algorithmExists(user.getAlgorithm())) {
+        if (this.recommendationService.existsAlgorithm(user.getAlgorithm())) {
             throw new RuntimeException(("Unknown algorithm"));
         }
 
         return this.userRepository.save(user);
+    }
+
+    private boolean userInDatabase(User user) {
+        return user.getId() == null && this.existsByName(user.getName());
     }
 
     private boolean existsByName(String name) {

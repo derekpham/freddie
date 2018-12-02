@@ -11,6 +11,8 @@ import org.springframework.data.neo4j.repository.Neo4jRepository;
  */
 
 public interface SongRepository extends Neo4jRepository<Song, Long> {
+    Song findByName(String name);
+
     @Query("MATCH (s:Song) WITH s, rand() AS number RETURN s ORDER BY number LIMIT 1")
     Song recommendRandomSong(User user);
 

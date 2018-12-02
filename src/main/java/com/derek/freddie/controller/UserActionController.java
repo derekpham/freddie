@@ -1,17 +1,33 @@
 package com.derek.freddie.controller;
 
+import com.derek.freddie.entity.Song;
+import com.derek.freddie.entity.User;
+import com.derek.freddie.entity.relationship.RelationshipType;
+import com.derek.freddie.service.SongService;
+import com.derek.freddie.service.UserActionService;
+import com.derek.freddie.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/UserAction")
 public final class UserActionController {
-    public UserActionController() { }
+    private final UserService userService;
+    private final SongService songService;
+    private final UserActionService userActionService;
+
+    public UserActionController(UserService userService, SongService songService, UserActionService userActionService) {
+        this.userService = userService;
+        this.songService = songService;
+        this.userActionService = userActionService;
+    }
 
     @PostMapping("/listened")
     @ResponseStatus(HttpStatus.OK)
     public boolean userListened(String userName, String songName) {
-        System.out.println(userName + " listened to " + songName);
+        User user = this.userService.findByName(userName);
+        Song song = this.songService.findByName(songName);
+        this.userActionService.registerUserAction(user, song, RelationshipType.LISTENED, null);
         return true;
     }
 
@@ -20,7 +36,10 @@ public final class UserActionController {
     public boolean userLikedOrDisliked(@RequestParam("userName") String userName,
                                        @RequestParam("songName") String songName,
                                        @RequestParam("liked") boolean liked) {
-        System.out.println(userName + (liked ? " liked " : " disliked ") + songName);
+        User user = this.userService.findByName(userName);
+        Song song = this.songService.findByName(songName);
+        this.userActionService.registerUserAction(user, song,
+                RelationshipType.GAVE_PREFERENCE, liked);
         return true;
     }
 }

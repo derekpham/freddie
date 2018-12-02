@@ -1,30 +1,34 @@
 package com.derek.freddie.entity;
 
+import com.derek.freddie.entity.relationship.OfGenreRelationship;
+import com.derek.freddie.entity.relationship.RelationshipType;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.neo4j.ogm.annotation.GeneratedValue;
 import org.neo4j.ogm.annotation.Id;
 import org.neo4j.ogm.annotation.NodeEntity;
+import org.neo4j.ogm.annotation.Relationship;
+
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
 
 @NodeEntity
 public final class Song {
-    @Id
-    @GeneratedValue
-    private Long id;
+    @Id @GeneratedValue private Long id;
     private String name;
     private String artist;
-    private String genre;
-    private int length; // in seconds
     private int year;
     private String url;
 
+    @Relationship(type = RelationshipType.OF_GENRE)
+    @JsonIgnore
+    private Set<OfGenreRelationship> genreRelationships = new HashSet<>();
+
     public Song() {}
 
-    public Song(Long id, String name, String artist, String genre, int length, int yearPublished,
-                String url) {
-        this.id = id;
+    public Song(String name, String artist, int yearPublished, String url) {
         this.name = name;
         this.artist = artist;
-        this.genre = genre;
-        this.length = length;
         this.year = yearPublished;
         this.url = url;
     }
@@ -33,56 +37,28 @@ public final class Song {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public String getName() {
         return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public String getArtist() {
         return artist;
     }
 
-    public void setArtist(String artist) {
-        this.artist = artist;
-    }
-
-    public String getGenre() {
-        return genre;
-    }
-
-    public void setGenre(String genre) {
-        this.genre = genre;
-    }
-
-    public int getLength() {
-        return length;
-    }
-
-    public void setLength(int length) {
-        this.length = length;
-    }
-
     public int getYear() {
         return year;
-    }
-
-    public void setYear(int year) {
-        this.year = year;
     }
 
     public String getUrl() {
         return url;
     }
 
-    public void setUrl(String url) {
-        this.url = url;
+    public Set<OfGenreRelationship> getGenreRelationships() {
+        return genreRelationships;
+    }
+
+    public void setGenreRelationships(Set<OfGenreRelationship> genreRelationships) {
+        this.genreRelationships = genreRelationships;
     }
 
     @Override
@@ -91,10 +67,21 @@ public final class Song {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", artist='" + artist + '\'' +
-                ", genre='" + genre + '\'' +
-                ", length=" + length +
                 ", year=" + year +
                 ", url='" + url + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Song song = (Song) o;
+        return Objects.equals(id, song.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }
