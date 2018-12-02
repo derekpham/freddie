@@ -9,9 +9,65 @@
             text-decoration: none;
     }
     </style>
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" th:inline="javascript">
+        /*<![CDATA[*/
+        let userName = /*[[${user.name}]]*/ + '';
+        /*]]>*/
+
+        const RIGHT_CLICK = 3;
+
+        $(document).ready(function() {
+            $('#songLink').mousedown(function(e) {
+                if (e.which == RIGHT_CLICK) {
+                    return true;
+                }
+
+                $.post(
+                    "/UserAction/listened",
+                    {
+                        userName: userName,
+                        songName: $('#songLink').text()
+                    }
+                );
+            });
+        });
+
+        function fetchRecommendedSong() {
+            $.post(
+                "/Recommend/recommend",
+                {
+                    userName: userName
+                },
+                function(song) {
+                    $("#song").css("display", "inline");
+                    var songLinkElement = $("#songLink");
+                    songLinkElement.attr("href", song["url"]);
+                    songLinkElement.text(song["name"]);
+                }
+            );
+        }
+
+        function notifyLiked(liked) {
+            $.post(
+                "/UserAction/liked",
+                {
+                    userName: userName,
+                    songName: $('#songLink').text(),
+                    liked: liked
+                }
+            );
+        }
+    </script>
 </head>
 <body>
 <h3 th:inline="text">Hello [[${user.name}]]</h3>
+<button onclick="fetchRecommendedSong();">Recommend me a song!</button><br><br>
+<div id="song" style="display: none;">
+    <a id="songLink" target="_blank"></a>
+    <button onclick="notifyLiked(true);" style="margin-left:30px; color: green">Like</button>
+    <button onclick="notifyLiked(false);"  style="color: red">Dislike</button>
+</div>
 
 <br><br><br>
 <div id="links">
