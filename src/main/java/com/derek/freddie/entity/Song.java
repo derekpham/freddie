@@ -11,6 +11,7 @@ import org.neo4j.ogm.annotation.Relationship;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @NodeEntity
 public final class Song {
@@ -59,6 +60,13 @@ public final class Song {
 
     public void setGenreRelationships(Set<OfGenreRelationship> genreRelationships) {
         this.genreRelationships = genreRelationships;
+    }
+
+    public Set<Genre> extractGenres() {
+        return genreRelationships
+                .stream()
+                .map(OfGenreRelationship::getGenre)
+                .collect(Collectors.toSet());
     }
 
     @Override

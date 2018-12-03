@@ -2,7 +2,7 @@ package com.derek.freddie.service;
 
 import com.derek.freddie.entity.Song;
 import com.derek.freddie.entity.User;
-import com.derek.freddie.entity.relationship.GavePreferenceRelationship;
+import com.derek.freddie.entity.relationship.GavePreference;
 import com.derek.freddie.entity.relationship.ListenedRelationship;
 import com.derek.freddie.entity.relationship.RelationshipType;
 import com.derek.freddie.entity.relationship.WasRecommendedRelationship;
@@ -29,10 +29,10 @@ public final class UserActionService {
         } else if (userAction.equals(RelationshipType.LISTENED)) {
             user.getListenedRelationships().add(new ListenedRelationship(user, song));
         } else if (userAction.equals(RelationshipType.GAVE_PREFERENCE) && liked != null) {
-            Set<GavePreferenceRelationship> likedDislikedRelationships = user
+            Set<GavePreference> likedDislikedRelationships = user
                     .getGavePreferenceRelationships();
-            likedDislikedRelationships.remove(new GavePreferenceRelationship(user, song, !liked));
-            likedDislikedRelationships.add(new GavePreferenceRelationship(user, song, liked));
+            likedDislikedRelationships.remove(new GavePreference(user, song, !liked));
+            likedDislikedRelationships.add(new GavePreference(user, song, liked));
         } else {
             throw new IllegalArgumentException("must give a boolean for preference");
         }

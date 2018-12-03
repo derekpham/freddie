@@ -1,6 +1,6 @@
 package com.derek.freddie.entity;
 
-import com.derek.freddie.entity.relationship.GavePreferenceRelationship;
+import com.derek.freddie.entity.relationship.GavePreference;
 import com.derek.freddie.entity.relationship.ListenedRelationship;
 import com.derek.freddie.entity.relationship.RelationshipType;
 import com.derek.freddie.entity.relationship.WasRecommendedRelationship;
@@ -33,7 +33,7 @@ public final class User {
 
     @Relationship(type = RelationshipType.GAVE_PREFERENCE)
     @JsonIgnore
-    private Set<GavePreferenceRelationship> gavePreferenceRelationships = new HashSet<>();
+    private Set<GavePreference> gavePreferenceRelationships = new HashSet<>();
 
     public User(String name, String algorithm) {
         this.name = name;
@@ -68,7 +68,7 @@ public final class User {
         return listenedRelationships;
     }
 
-    public Set<GavePreferenceRelationship> getGavePreferenceRelationships() {
+    public Set<GavePreference> getGavePreferenceRelationships() {
         return gavePreferenceRelationships;
     }
 

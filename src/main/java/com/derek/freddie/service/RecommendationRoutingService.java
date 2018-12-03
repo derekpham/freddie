@@ -21,6 +21,7 @@ public final class RecommendationRoutingService {
     private void initMap() {
         nameToAlgorithm.put("random", recommendationAlgorithmService::random);
         nameToAlgorithm.put("smartRandom", recommendationAlgorithmService::smartRandom);
+        nameToAlgorithm.put("byGenre", recommendationAlgorithmService::byGenre);
     }
 
     public List<String> allAlgorithms() {

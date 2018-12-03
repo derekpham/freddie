@@ -7,13 +7,13 @@ import org.neo4j.ogm.annotation.*;
 import java.util.Objects;
 
 @RelationshipEntity(RelationshipType.GAVE_PREFERENCE)
-public final class GavePreferenceRelationship {
+public final class GavePreference {
     @Id @GeneratedValue private Long id;
     @StartNode private User user;
     @EndNode private Song song;
     private boolean liked;
 
-    public GavePreferenceRelationship(User user, Song song, boolean liked) {
+    public GavePreference(User user, Song song, boolean liked) {
         this.user = user;
         this.song = song;
         this.liked = liked;
@@ -37,7 +37,7 @@ public final class GavePreferenceRelationship {
 
     @Override
     public String toString() {
-        return "GavePreferenceRelationship{" +
+        return "GavePreference{" +
                 "id=" + id +
                 ", user=" + user.getName() +
                 ", song=" + song.getName() +
@@ -49,7 +49,7 @@ public final class GavePreferenceRelationship {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        GavePreferenceRelationship that = (GavePreferenceRelationship) o;
+        GavePreference that = (GavePreference) o;
         return liked == that.liked &&
                 Objects.equals(user, that.user) &&
                 Objects.equals(song, that.song);
