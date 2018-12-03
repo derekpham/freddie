@@ -22,6 +22,8 @@ public final class RecommendationRoutingService {
         nameToAlgorithm.put("random", recommendationAlgorithmService::random);
         nameToAlgorithm.put("smartRandom", recommendationAlgorithmService::smartRandom);
         nameToAlgorithm.put("byGenre", recommendationAlgorithmService::byGenre);
+        nameToAlgorithm.put("otherSimilarUsers",
+                recommendationAlgorithmService::otherUserThatLikedSameSongs);
     }
 
     public List<String> allAlgorithms() {

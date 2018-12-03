@@ -9,13 +9,14 @@ import org.neo4j.ogm.session.Session;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public final class RecommendationAlgorithmService {
     private final SongRepository songRepository;
     private final Session session;
 
-    public RecommendationAlgorithmService(SongRepository songRepository, Session session) {
+    public RecommendationAlgorithmService(SongRepository songRepository, @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection") Session session) {
         this.songRepository = songRepository;
         this.session = session;
     }
@@ -48,6 +49,23 @@ public final class RecommendationAlgorithmService {
         Genre randomGenre = listRandom(likedGenres);
         return this.songRepository
                 .byGenre(user.getName(), randomGenre.getName())
+                .orElseGet(() -> this.smartRandom(user));
+    }
+
+    public Song otherUserThatLikedSameSongs(User user) {
+        List<Song> likedSong = user
+                .getGavePreferenceRelationships()
+                .stream()
+                .filter(GavePreference::isLiked)
+                .map(GavePreference::getSong)
+                .collect(Collectors.toList());
+        if (likedSong.isEmpty()) {
+            return this.smartRandom(user);
+        }
+
+        Song randomLikedSong = listRandom(likedSong);
+        return this.songRepository
+                .byWhoAlsoLikedThisSong(user.getName(), randomLikedSong.getName())
                 .orElseGet(() -> this.smartRandom(user));
     }
 

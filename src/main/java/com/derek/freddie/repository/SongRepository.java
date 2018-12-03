@@ -51,6 +51,18 @@ public interface SongRepository extends Neo4jRepository<Song, Long> {
     @Query(BY_GENRE)
     Optional<Song> byGenre(String userName, String genreName);
 
+    String BY_WHO_ALSO_LIKED_THIS_SONG =
+            "MATCH (u:User)-[:GAVE_PREFERENCE {liked: true}]->(s:Song {name: {1}}) " +
+                    "MATCH (u:User)-[:GAVE_PREFERENCE {liked: true}]->(song:Song) " +
+                    "WHERE song.name <> {1} " +
+                    "AND u.name <> {0} " +
+                    "WITH song, rand() as number " +
+                    "RETURN song " +
+                    "ORDER BY number " +
+                    "LIMIT 1";
+    @Query(BY_WHO_ALSO_LIKED_THIS_SONG)
+    Optional<Song> byWhoAlsoLikedThisSong(String userName, String songName);
+
     @Query("MATCH (s:Song) RETURN s ORDER BY s.artist")
     Iterable<Song> findAllOrderByArtist();
 }
