@@ -2,21 +2,25 @@ package com.derek.freddie.service;
 
 import com.derek.freddie.entity.Song;
 import com.derek.freddie.entity.User;
-import com.derek.freddie.repository.SongRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
 import java.util.function.Function;
 
 @Service
-public final class RecommendationService {
+public final class RecommendationRoutingService {
     private final Map<String, Function<User, Song>> nameToAlgorithm;
-    private final SongRepository songRepository;
+    private final RecommendationAlgorithmService recommendationAlgorithmService;
 
-    public RecommendationService(SongRepository songRepository) {
-        this.songRepository = songRepository;
+    public RecommendationRoutingService(RecommendationAlgorithmService recommendationAlgorithmService) {
+        this.recommendationAlgorithmService = recommendationAlgorithmService;
         this.nameToAlgorithm = new HashMap<>();
-        nameToAlgorithm.put("random", songRepository::recommendRandomSong);
+        initMap();
+    }
+
+    private void initMap() {
+        nameToAlgorithm.put("random", recommendationAlgorithmService::random);
+        nameToAlgorithm.put("smartRandom", recommendationAlgorithmService::smartRandom);
     }
 
     public List<String> allAlgorithms() {

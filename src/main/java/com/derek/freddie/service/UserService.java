@@ -13,11 +13,11 @@ import org.springframework.stereotype.Service;
 @Service
 public final class UserService {
     private final UserRepository userRepository;
-    private final RecommendationService recommendationService;
+    private final RecommendationRoutingService recommendationRoutingService;
 
-    public UserService(UserRepository userRepository, RecommendationService recommendationService) {
+    public UserService(UserRepository userRepository, RecommendationRoutingService recommendationRoutingService) {
         this.userRepository = userRepository;
-        this.recommendationService = recommendationService;
+        this.recommendationRoutingService = recommendationRoutingService;
     }
 
     public Iterable<User> findAll() {
@@ -32,7 +32,7 @@ public final class UserService {
         if (this.userInDatabase(user)) {
             throw new RuntimeException("User already exists: " + user);
         }
-        if (this.recommendationService.existsAlgorithm(user.getAlgorithm())) {
+        if (this.recommendationRoutingService.existsAlgorithm(user.getAlgorithm())) {
             throw new RuntimeException(("Unknown algorithm"));
         }
 
