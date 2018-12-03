@@ -5,6 +5,7 @@ import com.derek.freddie.entity.Song;
 import com.derek.freddie.entity.User;
 import com.derek.freddie.entity.relationship.GavePreference;
 import com.derek.freddie.repository.SongRepository;
+import org.neo4j.ogm.session.Session;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -12,9 +13,11 @@ import java.util.*;
 @Service
 public final class RecommendationAlgorithmService {
     private final SongRepository songRepository;
+    private final Session session;
 
-    public RecommendationAlgorithmService(SongRepository songRepository) {
+    public RecommendationAlgorithmService(SongRepository songRepository, Session session) {
         this.songRepository = songRepository;
+        this.session = session;
     }
 
     /**
@@ -55,6 +58,7 @@ public final class RecommendationAlgorithmService {
                 .stream()
                 .filter(GavePreference::isLiked)
                 .map(GavePreference::getSong)
+                .map(song -> session.load(Song.class, song.getId(), 2))
                 .map(Song::extractGenres)
                 .forEach(result::addAll);
 

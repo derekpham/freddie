@@ -37,11 +37,11 @@ public interface SongRepository extends Neo4jRepository<Song, Long> {
     Optional<Song> smartRecommendRandomSong(String userName);
 
     String BY_GENRE =
-            "MATCH (s:Song)-[:OF_GENRE]->(g:Genre {name: {1}) " +
-                    "MATCH (u:User {name: {0}) " +
+            "MATCH (s:Song)-[:OF_GENRE]->(g:Genre {name: {1}}) " +
+                    "MATCH (u:User {name: {0}}) " +
                     "WHERE NOT EXISTS ((u)-[:LISTENED|:GAVE_PREFERENCE|:WAS_RECOMMENDED]->(s)) " +
                     "WITH s, u, rand() as number " +
-                    "RETURN s, u " +
+                    "RETURN s " +
                     "ORDER BY number " +
                     "LIMIT 1";
     /**
