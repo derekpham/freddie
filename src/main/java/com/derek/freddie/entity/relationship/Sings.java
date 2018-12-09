@@ -4,6 +4,9 @@ import com.derek.freddie.entity.Artist;
 import com.derek.freddie.entity.Song;
 import org.neo4j.ogm.annotation.*;
 
+/**
+ * Represents a directed SINGS relationship between an Artist node and a Song node.
+ */
 @RelationshipEntity(RelationshipType.SINGS)
 public final class Sings {
     @Id @GeneratedValue private Long id;

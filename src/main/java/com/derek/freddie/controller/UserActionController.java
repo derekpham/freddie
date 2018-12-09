@@ -9,6 +9,12 @@ import com.derek.freddie.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+/**
+ * Handles registering users' interactions with songs into the database. When an user
+ * listens, likes, or dislikes a song, this controller will create a relationship between the
+ * user and the song, and save it to the database.
+ * API endpoint at /UserAction
+ */
 @RestController
 @RequestMapping("/UserAction")
 public final class UserActionController {
@@ -24,7 +30,7 @@ public final class UserActionController {
 
     @PostMapping("/listened")
     @ResponseStatus(HttpStatus.OK)
-    public boolean userListened(String userName, String songName) {
+    public boolean handleUserListened(String userName, String songName) {
         User user = this.userService.findByName(userName);
         Song song = this.songService.findByName(songName);
         this.userActionService.registerUserAction(user, song, RelationshipType.LISTENED, null);
@@ -33,9 +39,9 @@ public final class UserActionController {
 
     @PostMapping("/liked")
     @ResponseStatus(HttpStatus.OK)
-    public boolean userLikedOrDisliked(@RequestParam("userName") String userName,
-                                       @RequestParam("songName") String songName,
-                                       @RequestParam("liked") boolean liked) {
+    public boolean handleUserLikedOrDisliked(@RequestParam("userName") String userName,
+                                             @RequestParam("songName") String songName,
+                                             @RequestParam("liked") boolean liked) {
         User user = this.userService.findByName(userName);
         Song song = this.songService.findByName(songName);
         this.userActionService.registerUserAction(user, song,

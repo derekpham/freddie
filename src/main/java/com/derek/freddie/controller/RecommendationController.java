@@ -10,6 +10,11 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * Handles anything that is related to recommending songs.
+ * Right now, it handles returning all available algorithms, and recommends you the next song.
+ * API endpoint at /Recommend
+ */
 @RestController
 @RequestMapping("Recommend")
 public final class RecommendationController {
@@ -30,6 +35,12 @@ public final class RecommendationController {
         return this.recommendationRoutingService.allAlgorithms();
     }
 
+    /**
+     * Recommends you a song! This will also create a relationship in the database between the
+     * recommended song and the user ("WAS_RECOMMENDED" relationship).
+     * @param userName the user to recommend
+     * @return the recommended song
+     */
     @PostMapping("/recommend")
     public Song recommend(@RequestParam("userName") String userName) {
         User user = this.userService.findByName(userName);

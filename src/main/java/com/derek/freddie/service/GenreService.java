@@ -4,6 +4,7 @@ import com.derek.freddie.entity.Genre;
 import com.derek.freddie.repository.GenreRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -15,23 +16,16 @@ public final class GenreService {
         this.genreRepository = genreRepository;
     }
 
-    public Set<Genre> saveGenresIfNotExist(String rawGenres) {
+    public Set<Genre> saveGenresIfNotExist(String[] genres) {
         Set<Genre> result = new HashSet<>();
 
-        for (String genreName : rawGenres.split(";(\\s*)")) {
-            Genre genre = this.genreRepository.findByName(genreName.toLowerCase());
-            if (genre == null) {
-                genre = new Genre(genreName);
-                this.genreRepository.save(genre);
-            }
-
-            result.add(genre);
-        }
+        Arrays.stream(genres)
+                .forEach(genreName -> {
+                    result.add(this.genreRepository
+                            .findByName(genreName)
+                            .orElseGet(() -> this.genreRepository.save(new Genre(genreName))));
+                });
 
         return result;
-    }
-
-    public Iterable<Genre> saveAll(Set<Genre> genres) {
-        return this.genreRepository.saveAll(genres);
     }
 }

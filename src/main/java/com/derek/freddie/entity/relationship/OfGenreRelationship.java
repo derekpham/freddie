@@ -5,6 +5,9 @@ import com.derek.freddie.entity.Song;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.neo4j.ogm.annotation.*;
 
+/**
+ * Represents a directed OF_GENRE relationship between a Song node and a Genre node.
+ */
 @RelationshipEntity(RelationshipType.OF_GENRE)
 public final class OfGenreRelationship {
     @Id @GeneratedValue private Long id;

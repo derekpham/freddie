@@ -6,6 +6,9 @@ import org.neo4j.ogm.annotation.*;
 
 import java.util.Objects;
 
+/**
+ * Represents a directed WAS_RECOMMENDED relationship between a User node and a Song node.
+ */
 @RelationshipEntity(RelationshipType.WAS_RECOMMENDED)
 public final class WasRecommendedRelationship {
     @Id @GeneratedValue private Long id;

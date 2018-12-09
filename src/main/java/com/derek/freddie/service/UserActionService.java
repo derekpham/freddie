@@ -11,6 +11,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.Set;
 
+/**
+ * Handles saving user-song relationships: WAS_RECOMMENDED, LISTENED, LIKED/DISLIKED
+ */
 @Service
 public final class UserActionService {
     private final UserRepository userRepository;

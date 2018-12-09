@@ -7,6 +7,9 @@ import org.springframework.stereotype.Service;
 import java.util.*;
 import java.util.function.Function;
 
+/**
+ * A dumb routing tier that routes algorithm names to recommendation implementations.
+ */
 @Service
 public final class RecommendationRoutingService {
     private final Map<String, Function<User, Song>> nameToAlgorithm;

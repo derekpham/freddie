@@ -10,6 +10,9 @@ import org.neo4j.ogm.annotation.Relationship;
 
 import java.util.Set;
 
+/**
+ * Represents a Genre node in the database.
+ */
 @NodeEntity
 public final class Genre {
     @Id @GeneratedValue private Long id;

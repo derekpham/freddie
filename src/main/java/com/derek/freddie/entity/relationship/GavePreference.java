@@ -6,6 +6,11 @@ import org.neo4j.ogm.annotation.*;
 
 import java.util.Objects;
 
+/**
+ * Represents a GAVE_PREFERENCE relationship in the database.
+ * Directed relationship between a User node and a Song node.
+ * Has a boolean attribute "liked" to represent whether the user has liked or disliked the song.
+ */
 @RelationshipEntity(RelationshipType.GAVE_PREFERENCE)
 public final class GavePreference {
     @Id @GeneratedValue private Long id;

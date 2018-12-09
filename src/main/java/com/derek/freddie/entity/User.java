@@ -17,6 +17,9 @@ import java.util.*;
  *  +) looks into whether you can make this a set
  */
 
+/**
+ * Handles a User node in the database.
+ */
 @NodeEntity
 public final class User {
     @Id @GeneratedValue private Long id;

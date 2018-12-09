@@ -17,6 +17,9 @@ import org.springframework.web.bind.annotation.ResponseStatus;
  *  +) Even remove the exception class all in one
  */
 
+/**
+ * Handles returning templated HTML for the user's homepage.
+ */
 @Controller
 public final class UserHomeController {
     private UserService userService;

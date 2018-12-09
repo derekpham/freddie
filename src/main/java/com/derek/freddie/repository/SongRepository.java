@@ -15,51 +15,43 @@ import java.util.Optional;
 public interface SongRepository extends Neo4jRepository<Song, Long> {
     Song findByName(String name);
 
-    String RECOMMEND_RANDOM_SONG =
-            "MATCH (s:Song) WITH s, rand() AS number RETURN s ORDER BY number LIMIT 1";
     /**
      * Recommends a random song. This can give you a song that you were already recommended to.
      */
-    @Query(RECOMMEND_RANDOM_SONG)
+    @Query("MATCH (s:Song) WITH s, rand() AS number RETURN s ORDER BY number LIMIT 1")
     Song recommendRandomSong(User user);
 
-    String SMART_RECOMMEND_RANDOM_SONG =
-            "MATCH (u:User {name: {0}}), (s:Song) "
-                    + "WHERE NOT EXISTS ((u)-[:WAS_RECOMMENDED]->(s)) "
-                    + "WITH s, rand() as number "
-                    + "RETURN s "
-                    + "ORDER BY number "
-                    + "LIMIT 1";
     /**
      * Recommends a random song that you have not listened to.
      */
-    @Query(SMART_RECOMMEND_RANDOM_SONG)
+    @Query("MATCH (u:User {name: {0}}), (s:Song) "
+            + "WHERE NOT EXISTS ((u)-[:WAS_RECOMMENDED]->(s)) "
+            + "WITH s, rand() as number "
+            + "RETURN s "
+            + "ORDER BY number "
+            + "LIMIT 1")
     Optional<Song> smartRecommendRandomSong(String userName);
 
-    String BY_GENRE =
-            "MATCH (s:Song)-[:OF_GENRE]->(g:Genre {name: {1}}) " +
-                    "MATCH (u:User {name: {0}}) " +
-                    "WHERE NOT EXISTS ((u)-[:LISTENED|:GAVE_PREFERENCE|:WAS_RECOMMENDED]->(s)) " +
-                    "WITH s, u, rand() as number " +
-                    "RETURN s " +
-                    "ORDER BY number " +
-                    "LIMIT 1";
     /**
      * Recommends a song whose genre is as provided, and that the user hasn't listened, gave
      * reference to, or was recommended to
      */
-    @Query(BY_GENRE)
+    @Query("MATCH (s:Song)-[:OF_GENRE]->(g:Genre {name: {1}}) " +
+            "MATCH (u:User {name: {0}}) " +
+            "WHERE NOT EXISTS ((u)-[:LISTENED|:GAVE_PREFERENCE|:WAS_RECOMMENDED]->(s)) " +
+            "WITH s, u, rand() as number " +
+            "RETURN s " +
+            "ORDER BY number " +
+            "LIMIT 1")
     Optional<Song> byGenre(String userName, String genreName);
 
-    String BY_WHO_ALSO_LIKED_THIS_SONG =
-            "MATCH (u:User)-[:GAVE_PREFERENCE {liked: true}]->(s:Song {name: {1}}) " +
-                    "MATCH (u:User)-[:GAVE_PREFERENCE {liked: true}]->(song:Song) " +
-                    "WHERE song.name <> {1} " +
-                    "AND u.name <> {0} " +
-                    "WITH song, rand() as number " +
-                    "RETURN song " +
-                    "ORDER BY number " +
-                    "LIMIT 1";
-    @Query(BY_WHO_ALSO_LIKED_THIS_SONG)
+    @Query("MATCH (u:User)-[:GAVE_PREFERENCE {liked: true}]->(s:Song {name: {1}}) " +
+            "MATCH (u:User)-[:GAVE_PREFERENCE {liked: true}]->(song:Song) " +
+            "WHERE song.name <> {1} " +
+            "AND u.name <> {0} " +
+            "WITH song, rand() as number " +
+            "RETURN song " +
+            "ORDER BY number " +
+            "LIMIT 1")
     Optional<Song> byWhoAlsoLikedThisSong(String userName, String songName);
 }

@@ -6,6 +6,9 @@ import org.neo4j.ogm.annotation.*;
 
 import java.util.Objects;
 
+/**
+ * Represents a directed LISTENED relationship between a User node and a Song node.
+ */
 @RelationshipEntity(RelationshipType.LISTENED)
 public final class ListenedRelationship {
     @Id @GeneratedValue private Long id;

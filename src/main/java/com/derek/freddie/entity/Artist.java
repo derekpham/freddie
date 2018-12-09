@@ -11,6 +11,9 @@ import org.neo4j.ogm.annotation.Relationship;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * Represents an Artist node in the database.
+ */
 @NodeEntity
 public final class Artist {
     @Id @GeneratedValue private Long id;

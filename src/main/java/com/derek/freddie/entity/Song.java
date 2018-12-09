@@ -15,6 +15,9 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+/**
+ * Represents a Song node in the database.
+ */
 @NodeEntity
 public final class Song {
     @Id @GeneratedValue private Long id;

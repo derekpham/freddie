@@ -5,6 +5,11 @@ import com.derek.freddie.service.UserService;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+/**
+ * Handles CRUD operations for user: fetching all users in the database as well as creating new
+ * users.
+ * API endpoint at /User
+ */
 @RestController
 @RequestMapping("/User")
 public final class UserController {

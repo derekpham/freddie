@@ -17,8 +17,4 @@ public final class ArtistService {
                 .findByName(artistName)
                 .orElseGet(() -> this.artistRepository.save(new Artist(artistName)));
     }
-
-    public Artist save(Artist artist) {
-        return this.artistRepository.save(artist);
-    }
 }
