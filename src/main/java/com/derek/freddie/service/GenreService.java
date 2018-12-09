@@ -15,11 +15,11 @@ public final class GenreService {
         this.genreRepository = genreRepository;
     }
 
-    public Set<Genre> saveGenres(String rawGenres) {
+    public Set<Genre> saveGenresIfNotExist(String rawGenres) {
         Set<Genre> result = new HashSet<>();
 
         for (String genreName : rawGenres.split(";(\\s*)")) {
-            Genre genre = this.genreRepository.findByName(genreName);
+            Genre genre = this.genreRepository.findByName(genreName.toLowerCase());
             if (genre == null) {
                 genre = new Genre(genreName);
                 this.genreRepository.save(genre);

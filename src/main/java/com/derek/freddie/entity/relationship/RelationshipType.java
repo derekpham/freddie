@@ -9,6 +9,7 @@ public final class RelationshipType {
     public static final String WAS_RECOMMENDED = "WAS_RECOMMENDED";
     public static final String LISTENED = "LISTENED";
     public static final String GAVE_PREFERENCE = "GAVE_PREFERENCE";
+    public static final String SINGS = "SINGS";
 
     public static boolean isUserSongRelationship(String relationship) {
         return relationship.equals(WAS_RECOMMENDED) || relationship.equals(LISTENED)

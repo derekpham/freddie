@@ -31,13 +31,18 @@
             songs.forEach(function(song) {
                 let row = "";
                 row += "<th>" + song["name"] + "</th>";
-                row += "<th>" + song["artist"] + "</th>";
+                row += "<th>" + song["artist"]["artist"]["name"] + "</th>";
+                row += "<th>" + formatGenre(song["genres"]) + "</th>";
                 row += "<th>" + song["year"] + "</th>";
                 row += "<th><a href='" + song["url"] + "'>" + song["url"] + "</a></th>";
                 row = "<tr>" + row + "</tr>";
                 $("#songs tbody").append(row);
             });
         });
+
+        function formatGenre(genres) {
+            return genres.map(g => g["genre"]["name"]).join('; ');
+        }
     </script>
 </head>
 <body>
@@ -45,6 +50,7 @@
     <tr>
         <th>Name</th>
         <th>Artist</th>
+        <th>Genre</th>
         <th>Year</th>
         <th>Link</th>
     </tr>

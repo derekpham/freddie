@@ -62,7 +62,4 @@ public interface SongRepository extends Neo4jRepository<Song, Long> {
                     "LIMIT 1";
     @Query(BY_WHO_ALSO_LIKED_THIS_SONG)
     Optional<Song> byWhoAlsoLikedThisSong(String userName, String songName);
-
-    @Query("MATCH (s:Song) RETURN s ORDER BY s.artist")
-    Iterable<Song> findAllOrderByArtist();
 }
