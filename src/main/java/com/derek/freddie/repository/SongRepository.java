@@ -19,7 +19,7 @@ public interface SongRepository extends Neo4jRepository<Song, Long> {
      * Recommends a random song. This can give you a song that you were already recommended to.
      */
     @Query("MATCH (s:Song) WITH s, rand() AS number RETURN s ORDER BY number LIMIT 1")
-    Song recommendRandomSong(User user);
+    Song findRandomSong(User user);
 
     /**
      * Recommends a random song that you have not listened to.
@@ -30,7 +30,7 @@ public interface SongRepository extends Neo4jRepository<Song, Long> {
             + "RETURN s "
             + "ORDER BY number "
             + "LIMIT 1")
-    Optional<Song> smartRecommendRandomSong(String userName);
+    Optional<Song> findRandomSongSmart(String userName);
 
     /**
      * Recommends a song whose genre is as provided, and that the user hasn't listened, gave
@@ -43,15 +43,21 @@ public interface SongRepository extends Neo4jRepository<Song, Long> {
             "RETURN s " +
             "ORDER BY number " +
             "LIMIT 1")
-    Optional<Song> byGenre(String userName, String genreName);
+    Optional<Song> findSongByGenre(String userName, String genreName);
 
-    @Query("MATCH (u:User)-[:GAVE_PREFERENCE {liked: true}]->(s:Song {name: {1}}) " +
-            "MATCH (u:User)-[:GAVE_PREFERENCE {liked: true}]->(song:Song) " +
-            "WHERE song.name <> {1} " +
-            "AND u.name <> {0} " +
-            "WITH song, rand() as number " +
-            "RETURN song " +
+    @Query("MATCH (u1:User {name: {0}})-[:GAVE_PREFERENCE {liked: true}]->(s:Song), " +
+            "(u2:User {name: {1}}) " +
+            "WHERE NOT (u2)-[:GAVE_PREFERENCE {liked: true}]->(s) " +
+            "WITH s, rand() as number " +
+            "RETURN s " +
             "ORDER BY number " +
             "LIMIT 1")
-    Optional<Song> byWhoAlsoLikedThisSong(String userName, String songName);
+    Optional<Song> findSongFirstUserLikedButSecondHasNot(String userToExtract, String userToRecommend);
+
+    @Query("MATCH (a:Artist {name: {0}})-[:SINGS]->(s:Song) " +
+            "WITH s, rand() as number " +
+            "RETURN s " +
+            "ORDER BY number " +
+            "LIMIT 1")
+    Optional<Song> findRandomSongByArtist(String artistName);
 }
